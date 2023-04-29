@@ -17,3 +17,4 @@ Atomdriver/premake5
 *.exe
 *.lua
 *.osx
+*.vs
