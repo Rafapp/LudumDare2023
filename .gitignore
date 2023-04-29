@@ -5,3 +5,15 @@
 # Directories
 .vscode/
 LudumDare2023/
+_app/
+_bin/
+_build/
+_lib/
+raylib-master/
+Atomdriver/LICENSE
+Atomdriver/Makefile
+*.bat
+Atomdriver/premake5
+*.exe
+*.lua
+*.osx
