@@ -17,35 +17,49 @@ int main(void)
     camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
-    camera.projection = CAMERA_PERSPECTIVE;
+    camera.projection = CAMERA_ORTHOGRAPHIC;
     UpdateCamera(&camera, CAMERA_FREE);
 
     // Start window
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
 
-    // Load cube, its texture, and its shader
-    Model cube = LoadModel("assets/Models/TestModel.obj");
-    Texture2D texture = LoadTexture("assets/Textures/TestTexture.png");
-    SetMaterialTexture(&cube.materials[0], MATERIAL_MAP_DIFFUSE, texture);
-    Shader flatShader = LoadShader("assets/Shaders/flat.vs", "assets/Shaders/flat.fs");
+    // Load cube and its texture
+    Model cube = LoadModel("../assets/Models/TestModel.obj");
+    Texture2D texture = LoadTexture("../assets/Textures/TestTexture.png");
+    cube.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
     Vector3 cubePosition = (Vector3){0,0,0};
 
-    //SetLighting(ColorToInt(WHITE), Vector3Zero(), 0, 0);
+    // Skybox
+    Color topColor = {10, 63, 68, 255};
+    Color bottomColor = {67, 153, 114};
 
     LoadLevel();
 
     while (!WindowShouldClose())
     {
-        // Draw loop
+        // Standard draw loop
         BeginDrawing();
-        ClearBackground(BLUE);
-        BeginMode3D(camera);
-        //DrawModel(cube, cubePosition, 1, WHITE);
-        //DrawLevel();
-        EndMode3D();
+            ClearBackground(topColor);
+            BeginMode3D(camera);
+                DrawModel(cube, cubePosition, 10, WHITE);
+            EndMode3D();
         EndDrawing();
+
+        // Input
+        if(IsKeyPressed(KEY_W)){
+            printf("W\n");
+        }
+        if(IsKeyPressed(KEY_A)){
+            printf("A\n");
+        }
+        if(IsKeyPressed(KEY_S)){
+            printf("S\n");
+        }
+        if(IsKeyPressed(KEY_D)){
+            printf("D\n");
+        }
     }
 
     // Unloading
