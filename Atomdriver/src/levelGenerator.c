@@ -68,4 +68,6 @@ int UnloadLevel(void)
         UnloadModel(loadedModels[model++]);
 
     }
+
+    return 0;
 }

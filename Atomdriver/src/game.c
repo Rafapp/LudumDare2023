@@ -28,8 +28,8 @@ int main(void)
     SetTargetFPS(60);
 
     // Load cube and its texture
-    Model cube = LoadModel("../assets/Models/TestModel.obj");
-    Texture2D texture = LoadTexture("../assets/Textures/TestTexture.png");
+    Model cube = LoadModel("assets/Models/TestModel.obj");
+    Texture2D texture = LoadTexture("assets/Textures/TestTexture.png");
     cube.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
     Vector3 cubePosition = (Vector3){0,0,0};
