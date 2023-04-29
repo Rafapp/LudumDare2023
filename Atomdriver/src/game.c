@@ -30,7 +30,7 @@ int main(void)
 
     Vector3 cubePosition = (Vector3){0,0,0};
 
-    SetLighting(ColorToInt(WHITE), Vector3Zero(), 0, 0);
+    //SetLighting(ColorToInt(WHITE), Vector3Zero(), 0, 0);
 
     while (!WindowShouldClose())
     {
