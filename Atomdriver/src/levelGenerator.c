@@ -2,6 +2,7 @@
 #include "raymath.h"
 #include "rlgl.h"
 #include "levelGenerator.h"
+#include <stdio.h>
 
 
 const int level[LEVEL_SIZE][LEVEL_SIZE] = {
@@ -21,6 +22,7 @@ Texture2D texture;
 
 int LoadLevel(void)
 {
+    printf("-------- start loading -----------");
     texture = LoadTexture("assets/Textures/TestTexture.png"); // Load model texture
 
     for (int model = 0; model < LEVEL_SIZE * LEVEL_SIZE; model++)
@@ -31,7 +33,7 @@ int LoadLevel(void)
     
 
 
-
+    printf("-------- end loading ------------");
     return 0;
 }
 
