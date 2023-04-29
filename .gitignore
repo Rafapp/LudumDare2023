@@ -1,0 +1,7 @@
+# Files
+.gitattributes
+.CMakeLists.txt
+
+# Directories
+.vscode/
+LudumDare2023/
