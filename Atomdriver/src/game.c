@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "rlgl.h"
+#include "levelGenerator.h"
+#include <stdio.h>
 
 // Window specs
 #define SCREEN_WIDTH (800)
@@ -32,18 +34,25 @@ int main(void)
 
     //SetLighting(ColorToInt(WHITE), Vector3Zero(), 0, 0);
 
+    //LoadLevel();
+
+    int five = LEVEL_SIZE;
+    printf("%i", five);
+
     while (!WindowShouldClose())
     {
         // Draw loop
         BeginDrawing();
         ClearBackground(BLUE);
         BeginMode3D(camera);
-        DrawModel(cube, cubePosition, 1, WHITE);
+        //DrawModel(cube, cubePosition, 1, WHITE);
+        //DrawLevel();
         EndMode3D();
         EndDrawing();
     }
 
     // Unloading
+    //UnloadLevel();
     UnloadTexture(texture);
     UnloadModel(cube);
 
