@@ -1,6 +1,6 @@
 # Files
 .gitattributes
-.CMakeLists.txt
+CMakeLists.txt
 
 # Directories
 .vscode/
