@@ -34,10 +34,7 @@ int main(void)
 
     //SetLighting(ColorToInt(WHITE), Vector3Zero(), 0, 0);
 
-    //LoadLevel();
-
-    int five = LEVEL_SIZE;
-    printf("%i", five);
+    LoadLevel();
 
     while (!WindowShouldClose())
     {
