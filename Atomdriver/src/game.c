@@ -11,9 +11,12 @@
 
 int main(void)
 {
+    // Scale
+    float scale = 15;
+
     // Camera settings
     Camera3D camera = { 0 };
-    camera.position = (Vector3){ 10.0f, 10.0f, 10.0f };
+    camera.position = (Vector3){ 20.0f, 20.0f, 20.0f };
     camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
@@ -36,6 +39,9 @@ int main(void)
     Color bottomColor = {67, 153, 114};
 
     LoadLevel();
+    // Movement
+    Vector3 moveHorizontal = (Vector3){scale/2,0,0};
+    Vector3 moveVertical = (Vector3){0,0,scale/2};
 
     while (!WindowShouldClose())
     {
@@ -43,22 +49,22 @@ int main(void)
         BeginDrawing();
             ClearBackground(topColor);
             BeginMode3D(camera);
-                DrawModel(cube, cubePosition, 10, WHITE);
+                DrawModel(cube, cubePosition, scale, WHITE);
             EndMode3D();
         EndDrawing();
 
         // Input
-        if(IsKeyPressed(KEY_W)){
-            printf("W\n");
+        if(IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)){
+            cubePosition = Vector3Add(cubePosition, Vector3Negate(moveVertical));
         }
-        if(IsKeyPressed(KEY_A)){
-            printf("A\n");
+        if(IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)){
+            cubePosition = Vector3Add(cubePosition, Vector3Negate(moveHorizontal));
         }
-        if(IsKeyPressed(KEY_S)){
-            printf("S\n");
+        if(IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)){
+            cubePosition = Vector3Add(cubePosition, moveVertical);
         }
-        if(IsKeyPressed(KEY_D)){
-            printf("D\n");
+        if(IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)){
+            cubePosition = Vector3Add(cubePosition, moveHorizontal);
         }
     }
 
