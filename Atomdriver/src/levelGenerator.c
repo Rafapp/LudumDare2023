@@ -46,9 +46,24 @@ int LoadLevel(void)
         {
             if (level[row][col] == 1) // load building
             {
-                // TODO: Add support for building variation
-                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Building_V2.obj"); // can this be cached? 
-                loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture;
+                int totalBuildingVariations = 3;
+                int variation = GetRandomValue(1, totalBuildingVariations);
+
+                variation = -1;
+                switch (variation) // choose a building variation at random
+                {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                default:
+                    loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Building_V2.obj"); // can this be cached? 
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture;
+                    break;
+                }
+
             }
             else { // load a road
 
