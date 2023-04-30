@@ -3,6 +3,7 @@
 #include "raymath.h"
 #include "rlgl.h"
 #include "stdio.h"
+#include "levelGenerator.h"
 
 // Script headers
 #include "game.h"
@@ -55,6 +56,7 @@ void RenderLoop(){
         ClearBackground(topColor);
         BeginMode3D(camera);
             DrawModel(truckModel, truckPosition, scaleUnit, WHITE);
+            DrawLevel();
         EndMode3D();
     EndDrawing();
 }
@@ -63,6 +65,8 @@ void RenderLoop(){
 void Unload(){
     UnloadTexture(truckTexture);
     UnloadModel(truckModel);
+
+    UnloadLevel();
 
     CloseWindow();
 }
