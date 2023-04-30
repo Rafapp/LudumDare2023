@@ -14,7 +14,7 @@
 // 2 = start
 // 3 = end
 const int level[LEVEL_SIZE][LEVEL_SIZE] = {
-    {2,1,0,1,0,1,0,1,0,1},
+    {2,0,0,1,0,1,0,1,0,1},
     {0,0,0,0,0,0,0,0,0,0},
     {0,1,0,1,1,1,0,1,0,1},
     {0,0,0,0,0,0,0,0,0,0},
@@ -126,7 +126,7 @@ int LoadLevel(void)
 }
 
 // Returns correct road texture ID by checking adjcent tiles
-int GetRoadTextureIDAt(int row, int col)
+static int GetRoadTextureIDAt(int row, int col)
 {
     // 1: vertical
     // 2: horiztonal
@@ -177,7 +177,7 @@ int DrawLevel(void)
 
     int model = 0;
 
-    Vector3 offset = { -5.0f, 0.0f, -5.0f };
+    Vector3 offset = { 0.0f, 0.0f, 0.0f };
     for (int col = 0; col < (LEVEL_SIZE * tileSize); col += tileSize) // does * have great priority than < ?
     {
         for (int row = 0; row < (LEVEL_SIZE * tileSize); row += tileSize)
@@ -217,9 +217,6 @@ int UnloadLevel(void)
     return 0;
 }
 
-/* // how do I do this?
-int[] GetCurrentLevelData(void)
-{
+const int(*GetCurrentLevelData())[LEVEL_SIZE] {
     return level;
 }
-*/

@@ -10,8 +10,8 @@
 #include "levelGenerator.h"
 
 // Window specs
-#define SCREEN_WIDTH (1920)
-#define SCREEN_HEIGHT (1080)
+#define SCREEN_WIDTH (1280)
+#define SCREEN_HEIGHT (720)
 #define WINDOW_TITLE "Atomdriver"
 
 // Camera
@@ -35,12 +35,12 @@ void RenderInit(){
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
 
-    LoadLevel();
+    LoadLevel(); // should be done by level.c
 
 
     // Camera settings
     camera.position = (Vector3){ 50.0f, 50.0f, 50.0f };
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
+    camera.target = (Vector3){ 5.0f, 0.0f, 5.0f };
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.fovy = 10.0f;
     camera.projection = CAMERA_ORTHOGRAPHIC;
@@ -68,7 +68,7 @@ void Unload(){
     UnloadTexture(truckTexture);
     UnloadModel(truckModel);
 
-    UnloadLevel();
+    UnloadLevel();  // should be done by level.c
 
     CloseWindow();
 }

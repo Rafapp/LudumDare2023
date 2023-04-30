@@ -6,7 +6,8 @@
 int LoadLevel(void);
 int DrawLevel(void);
 int UnloadLevel(void);
-int GetRoadTextureIDAt(int row, int col);
+static int GetRoadTextureIDAt(int row, int col);
+const int(*GetCurrentLevelData())[LEVEL_SIZE];
 
 
 #endif
