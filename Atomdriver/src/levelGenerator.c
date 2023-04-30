@@ -44,14 +44,14 @@ int LoadLevel(void)
 {
     printf("-------- start loading level -----------");
 
-    roadTextureHor = LoadTexture("assets/Textures/Texture_Road_Horizontal.png");
-    roadTextureVer = LoadTexture("assets/Textures/Texture_Road_Vertical.png");
-    roadTextureInt = LoadTexture("assets/Textures/Texture_Road_Cross.png");
-    buildingTexture_1 = LoadTexture("assets/Textures/Texture_Building_v1.png");
-    buildingTexture_2 = LoadTexture("assets/Textures/Texture_Building_v2.png");
-    buildingTexture_3 = LoadTexture("assets/Textures/Texture_Building_v3.png");
-    buildingTexture_Start = LoadTexture("assets/Textures/Texture_Building_Start.png");
-    buildingTexture_End = LoadTexture("assets/Textures/Texture_Building_End.png");
+    roadTextureHor = LoadTexture("assets/Textures/Texture_Road_Horizontal_v2.png");
+    roadTextureVer = LoadTexture("assets/Textures/Texture_Road_Vertical_v2.png");
+    roadTextureInt = LoadTexture("assets/Textures/Texture_Road_Cross_v2.png");
+    buildingTexture_1 = LoadTexture("assets/Textures/Texture_Building_1_v2.png");
+    buildingTexture_2 = LoadTexture("assets/Textures/Texture_Building_2_v2.png");
+    buildingTexture_3 = LoadTexture("assets/Textures/Texture_Building_3_v2.png");
+    buildingTexture_Start = LoadTexture("assets/Textures/Texture_Building_Start_v2.png");
+    buildingTexture_End = LoadTexture("assets/Textures/Texture_Building_End_v2.png");
 
 
     int model = 0;

@@ -27,6 +27,8 @@ int main(void)
 
     while (!WindowShouldClose())
     {
+        ProcessLevelTimer();
+
         RenderLoop();
         
         // Input
@@ -47,10 +49,16 @@ int main(void)
             desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 270, 0.0f });
         }
 
-        if (CheckForCollisions(&desiredPosition) == 0)
+        int targetTile = CheckForCollisions(&desiredPosition);
+
+        if (targetTile == 0)
         {
             truckPosition = desiredPosition;
             truckModel.transform = desiredTransform;
+        }
+        else if (targetTile == 3) // level finished
+        {
+            FinishedPointReached();
         }
         //printf("%i at (%f , %f)\n",c, truckPosition.x, truckPosition.z);
     }

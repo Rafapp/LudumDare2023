@@ -7,6 +7,7 @@
 extern int scaleUnit;
 extern Model truckModel;
 
-void RenderInit();
-void RenderLoop();
-void Unload();
+void RenderInit(void);
+void RenderLoop(void);
+void Unload(void);
+void RenderTimer(void);

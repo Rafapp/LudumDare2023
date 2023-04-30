@@ -3,11 +3,13 @@
 #include "raymath.h"
 #include "rlgl.h"
 #include "stdio.h"
+#include <string.h>
 
 // Script headers
 #include "game.h"
 #include "rendering.h"
 #include "levelGenerator.h"
+#include "level.h"
 
 // Window specs
 #define SCREEN_WIDTH (1280)
@@ -58,9 +60,22 @@ void RenderLoop(){
         ClearBackground(topColor);
         BeginMode3D(camera);
             DrawModel(truckModel, truckPosition, scaleUnit, WHITE);
-            DrawLevel();
+            DrawLevel();           
         EndMode3D();
+        RenderTimer();
     EndDrawing();
+}
+
+void RenderTimer(void)
+{
+    char timerLabel[] = "Timer: ";
+    char str[50];
+    char result[100]; // Make sure the array is large enough to hold the concatenated string
+
+    snprintf(str, sizeof(str), "%.5f", GetCurrentLevelTime());
+    snprintf(result, sizeof(result), "%s%s", timerLabel, str);
+
+    DrawText(result, 10, 10, 20, WHITE);
 }
 
 // Unload all models and textures, close window
