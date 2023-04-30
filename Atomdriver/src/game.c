@@ -44,6 +44,9 @@ void UpdateFunction(void){
 
 int main(void)
 {
+    RenderInit();
+    UpdateFunction();
+    
     #if defined(PLATFORM_WEB)
         emscripten_set_main_loop(UpdateFunction, 0, 1);
     #else
@@ -54,9 +57,7 @@ int main(void)
             UpdateFunction();
         }
     #endif
-    RenderInit();
-    UpdateFunction();
-
+    
     Unload();
     return 0;
 }
