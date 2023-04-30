@@ -13,12 +13,13 @@
     #include <emscripten/emscripten.h>
 #endif
 
-
 // Movement
-Vector3 moveHorizontal = (Vector3){1.0f,0,0};
-Vector3 moveVertical = (Vector3){0,0,1.0f};
+Vector3 moveHorizontal = (Vector3){1.0f, 0, 0};
+Vector3 moveVertical = (Vector3){0, 0, 1.0f};
 Vector3 rotationAxis = (Vector3){0, 1, 0};
-Vector3 truckPosition = (Vector3){0,0,0};
+Vector3 truckPosition = (Vector3){0, 0, 0};
+Vector3 desiredPosition = (Vector3){0, 0, 0};
+Matrix desiredTransform;
 
 // Separated into function for web support
 void UpdateFunction(void){
@@ -61,10 +62,8 @@ int main(void)
 {
     RenderInit();
     LevelInit(); // must go after render 
+    desiredTransform = MatrixRotateXYZ((Vector3) { 0.0f, 0, 0.0f });
 
-    Vector3 desiredPosition = (Vector3){ 0,0,0 };
-    Matrix desiredTransform = MatrixRotateXYZ((Vector3) { 0.0f, DEG2RAD * 0, 0.0f });
-    
     #if defined(PLATFORM_WEB)
         emscripten_set_main_loop(UpdateFunction, 0, 1);
     #else
