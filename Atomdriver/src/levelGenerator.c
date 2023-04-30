@@ -36,10 +36,10 @@ int LoadLevel(void)
 
     texture = LoadTexture("assets/Textures/TestTexture.png"); // Load model texture
 
-    roadTextureHor = LoadTexture("../assets/Textures/T_Tile_Road_v1.png");
-    roadTextureVer = LoadTexture("../assets/Textures/T_Tile_Road_v1.png");
-    roadTextureInt = LoadTexture("../assets/Textures/T_Tile_Road_v2.png");
-    buildingTexture = LoadTexture("../assets/Textures/T_Tile_Building.png");
+    roadTextureHor = LoadTexture("assets/Textures/T_Tile_Road_v1.png");
+    roadTextureVer = LoadTexture("assets/Textures/T_Tile_Road_v1.png");
+    roadTextureInt = LoadTexture("assets/Textures/T_Tile_Road_v2.png");
+    buildingTexture = LoadTexture("assets/Textures/T_Tile_Building.png");
 
     int model = 0;
 
@@ -47,15 +47,31 @@ int LoadLevel(void)
     {
         for (int row = 0; row < LEVEL_SIZE; row++)
         {
-            if (level[row][col] == 1)
+            if (level[row][col] == 1) // load building
             {
-                loadedModels[model] = LoadModel("../assets/Models/M_Ludem_Tile_Building.obj");
+                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Building.obj");
                 loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture;
             }
-            else {
-                loadedModels[model] = LoadModel("../assets/Models/M_Ludem_Tile_Road.obj");
-                loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = roadTextureVer;
+            else { // load a road
+
+                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Road.obj");
+
+                int type = GetRoadTypeAt(row, col);
+
+                switch (type)
+                {
+                case 1:
+                    
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = roadTextureVer;             
+                default:
+                    break;
+                }
+
+
+                
             }
+
+
             model++;
         }
     }
@@ -63,6 +79,30 @@ int LoadLevel(void)
     printf("-------- end loading level ------------");
 
     return 0;
+}
+
+int GetRoadTypeAt(int row, int col)
+{
+    // 1: vertical
+    // 2: horiztonal
+    // 3: intersection
+    // ---- unsupported ----
+    // 4: t section north
+    // 5: t section south
+    // 6: t section west
+    // 7: t section east
+    // 8: L section north
+    // 9: L section south
+    // 10: L section west
+    // 11: L section east
+
+    int adjcentTypes[4]; 
+
+    //for ()
+
+
+
+    return 1;
 }
 
 int DrawLevel(void)
@@ -77,7 +117,7 @@ int DrawLevel(void)
         for (int row = 0; row < (LEVEL_SIZE * tileSize); row += tileSize)
         {
             Vector3 position = { row, 0, col}; // should these be floats? 
-            printf("------------ DRAWING A MODEL ------------\n");
+
             DrawModel(loadedModels[model], Vector3Add(position, offset), 1.0f, WHITE);
             model++;
         }

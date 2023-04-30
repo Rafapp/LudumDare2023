@@ -18,7 +18,7 @@
 Camera3D camera = { 0 };
 
 // Rendering variables
-int scaleUnit = 10;
+int scaleUnit = 1;
 
 // Skybox
 Color topColor = {10, 63, 68, 255};
@@ -34,6 +34,9 @@ void RenderInit(){
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
 
+    LoadLevel();
+
+
     // Camera settings
     
     camera.position = (Vector3){ 20.0f, 20.0f, 20.0f };
@@ -44,8 +47,8 @@ void RenderInit(){
     // UpdateCamera(&camera, CAMERA_FREE);
 
     // Load cube and its texture
-    truckModel = LoadModel("../assets/Models/Truck.obj");
-    truckTexture = LoadTexture("../assets/Textures/truckTexture.png");
+    truckModel = LoadModel("assets/Models/Truck.obj");
+    truckTexture = LoadTexture("assets/Textures/truckTexture.png");
     truckModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = truckTexture;
 }
 
