@@ -16,8 +16,8 @@ int main(void)
     RenderInit();
 
     // Movement
-    Vector3 moveHorizontal = (Vector3){scaleUnit/2,0,0};
-    Vector3 moveVertical = (Vector3){0,0,scaleUnit/2};
+    Vector3 moveHorizontal = (Vector3){1.0f,0,0};
+    Vector3 moveVertical = (Vector3){0,0,1.0f};
     Vector3 rotationAxis = (Vector3){0, 1, 0};
 
     while (!WindowShouldClose())

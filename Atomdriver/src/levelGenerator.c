@@ -1,7 +1,13 @@
+// Raylib headers
 #include "raylib.h"
 #include "raymath.h"
 #include "rlgl.h"
+
+
+// Script Headers
 #include "levelGenerator.h"
+
+// C headers
 #include <stdio.h>
 
 // 1 = building
@@ -86,21 +92,16 @@ int LoadLevel(void)
                     break;
                 }                             
             }
-
-
             model++;
         }
     }
-
     printf("-------- end loading level ------------");
-
     return 0;
 }
 
 // Returns correct road texture ID by checking adjcent tiles
 int GetRoadTextureIDAt(int row, int col)
 {
-
     // 1: vertical
     // 2: horiztonal
     // 3: intersection
@@ -149,8 +150,8 @@ int DrawLevel(void)
     // check for loaded first? Would be nice if this had error handling
 
     int model = 0;
-    Vector3 offset = { -5.0f, 0.0f, -5.0f };
 
+    Vector3 offset = { -5.0f, 0.0f, -5.0f };
     for (int col = 0; col < (LEVEL_SIZE * tileSize); col += tileSize) // does * have great priority than < ?
     {
         for (int row = 0; row < (LEVEL_SIZE * tileSize); row += tileSize)
@@ -161,7 +162,6 @@ int DrawLevel(void)
             model++;
         }
     }
-
     return 0;
 }
 
