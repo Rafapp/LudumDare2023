@@ -6,6 +6,7 @@
 int LoadLevel(void);
 int DrawLevel(void);
 int UnloadLevel(void);
+int GetRoadTypeAt(int row, int col);
 
 
 #endif
