@@ -6,6 +6,7 @@
 
 // Script headers
 #include "rendering.h"
+#include "level.h"
 #include "game.h"
 
 #if defined(PLATFORM_WEB)
@@ -21,23 +22,37 @@ Vector3 truckPosition = (Vector3){0,0,0};
 
 // Separated into function for web support
 void UpdateFunction(void){
+  ProcessLevelTimer();
     // Input
-    if(IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)){
-        truckPosition = Vector3Add(truckPosition, Vector3Negate(moveVertical));
-        truckModel.transform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 0, 0.0f });
-    }
-    if(IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)){
-        truckPosition = Vector3Add(truckPosition, Vector3Negate(moveHorizontal));
-        truckModel.transform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 90, 0.0f });
-    }
-    if(IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)){
-        truckPosition = Vector3Add(truckPosition, moveVertical);
-        truckModel.transform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 180, 0.0f });
-    }
-    if(IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)){
-        truckPosition = Vector3Add(truckPosition, moveHorizontal);
-        truckModel.transform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 270, 0.0f });
-    }
+        if(IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)){
+            desiredPosition = Vector3Add(truckPosition, Vector3Negate(moveVertical));
+            desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 0, 0.0f });
+        }
+        if(IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)){
+            desiredPosition = Vector3Add(truckPosition, Vector3Negate(moveHorizontal));
+            desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 90, 0.0f });
+        }
+        if(IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)){
+            desiredPosition = Vector3Add(truckPosition, moveVertical);
+            desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 180, 0.0f });
+        }
+        if(IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)){
+            desiredPosition = Vector3Add(truckPosition, moveHorizontal);
+            desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 270, 0.0f });
+        }
+
+        int targetTile = CheckForCollisions(&desiredPosition);
+
+        if (targetTile == 0)
+        {
+            truckPosition = desiredPosition;
+            truckModel.transform = desiredTransform;
+        }
+        else if (targetTile == 3) // level finished
+        {
+            FinishedPointReached();
+        }
+        //printf("%i at (%f , %f)\n",c, truckPosition.x, truckPosition.z);
 
     RenderLoop();
 }
@@ -45,7 +60,10 @@ void UpdateFunction(void){
 int main(void)
 {
     RenderInit();
-    UpdateFunction();
+    LevelInit(); // must go after render 
+
+    Vector3 desiredPosition = (Vector3){ 0,0,0 };
+    Matrix desiredTransform = MatrixRotateXYZ((Vector3) { 0.0f, DEG2RAD * 0, 0.0f });
     
     #if defined(PLATFORM_WEB)
         emscripten_set_main_loop(UpdateFunction, 0, 1);
