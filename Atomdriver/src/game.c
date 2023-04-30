@@ -2,8 +2,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "rlgl.h"
-#include "levelGenerator.h"
-#include <stdio.h>
+#include "stdio.h"
 
 // Script headers
 #include "rendering.h"
@@ -13,11 +12,9 @@ Vector3 truckPosition;
 
 int main(void)
 {
-
     truckPosition = (Vector3){0,0,0};
     RenderInit();
 
-    LoadLevel();
     // Movement
     Vector3 moveHorizontal = (Vector3){scaleUnit/2,0,0};
     Vector3 moveVertical = (Vector3){0,0,scaleUnit/2};
@@ -26,6 +23,7 @@ int main(void)
     while (!WindowShouldClose())
     {
         RenderLoop();
+        
         // Input
         if(IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)){
             truckPosition = Vector3Add(truckPosition, Vector3Negate(moveVertical));
@@ -44,7 +42,6 @@ int main(void)
             truckModel.transform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 270, 0.0f });
         }
     }
-
 
     Unload();
     return 0;
