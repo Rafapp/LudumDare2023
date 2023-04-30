@@ -98,7 +98,7 @@ int GetRoadTypeAt(int row, int col)
 
     int adjcentTypes[4]; 
 
-    for ()
+    //for ()
 
 
 
@@ -117,7 +117,7 @@ int DrawLevel(void)
         for (int row = 0; row < (LEVEL_SIZE * tileSize); row += tileSize)
         {
             Vector3 position = { row, 0, col}; // should these be floats? 
-            printf("------------ DRAWING A MODEL ------------\n");
+
             DrawModel(loadedModels[model], Vector3Add(position, offset), 1.0f, WHITE);
             model++;
         }

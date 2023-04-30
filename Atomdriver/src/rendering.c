@@ -18,7 +18,7 @@
 Camera3D camera = { 0 };
 
 // Rendering variables
-int scaleUnit = 10;
+int scaleUnit = 1;
 
 // Skybox
 Color topColor = {10, 63, 68, 255};
