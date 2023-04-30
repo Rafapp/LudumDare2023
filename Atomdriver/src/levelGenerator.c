@@ -44,14 +44,14 @@ int LoadLevel(void)
 {
     printf("-------- start loading level -----------");
     
-    roadTextureHor = LoadTexture("assets/Textures/Texture_Road_Horizontal_v2.png");
-    roadTextureVer = LoadTexture("assets/Textures/Texture_Road_Vertical_v2.png");
-    roadTextureInt = LoadTexture("assets/Textures/Texture_Road_Cross_v2.png");
-    buildingTexture_1 = LoadTexture("assets/Textures/Texture_Building_1_v2.png");
-    buildingTexture_2 = LoadTexture("assets/Textures/Texture_Building_2_v2.png");
-    buildingTexture_3 = LoadTexture("assets/Textures/Texture_Building_3_v2.png");
-    buildingTexture_Start = LoadTexture("assets/Textures/Texture_Building_Start_v2.png");
-    buildingTexture_End = LoadTexture("assets/Textures/Texture_Building_End_v2.png");
+    roadTextureHor = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Road_Horizontal_v2.png");
+    roadTextureVer = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Road_Vertical_v2.png");
+    roadTextureInt = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Road_Cross_v2.png");
+    buildingTexture_1 = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Building_1_v2.png");
+    buildingTexture_2 = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Building_2_v2.png");
+    buildingTexture_3 = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Building_3_v2.png");
+    buildingTexture_Start = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Building_Start_v2.png");
+    buildingTexture_End = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Building_End_v2.png");
 
     int model = 0;
 
@@ -69,19 +69,19 @@ int LoadLevel(void)
                 switch (variation) // choose a building variation at random
                 {
                 case 1:
-                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v1.obj");
+                    loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_v1.obj");
                     loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_1;
                     break;
                 case 2:
-                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v2.obj");
+                    loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_v2.obj");
                     loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_2;
                     break;
                 case 3:
-                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v3.obj");
+                    loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_v3.obj");
                     loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_3;
                     break;
                 default:
-                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v1.obj"); // can this be cached? 
+                    loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_v1.obj"); // can this be cached? 
                     loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_1;
                     break;
                 }
@@ -89,17 +89,17 @@ int LoadLevel(void)
             }
             else if (level[row][col] == 2)
             {
-                loadedModels[model] = LoadModel("assets/Models/Model_Building_Start.obj");
+                loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_Start.obj");
                 loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_Start;
             }
             else if (level[row][col] == 3)
             {
-                loadedModels[model] = LoadModel("assets/Models/Model_Building_End.obj");
+                loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_End.obj");
                 loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_End;
             }
             else { // load a road
 
-                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Road_V2.obj");
+                loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/M_Ludem_Tile_Road_V2.obj");
                               
                 int type = GetRoadTextureIDAt(row, col);
                 

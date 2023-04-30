@@ -11,5 +11,4 @@ float ProcessLevelTimer(void);
 void FinishedPointReached(void);
 float GetCurrentLevelTime(void);
 
-
 #endif
