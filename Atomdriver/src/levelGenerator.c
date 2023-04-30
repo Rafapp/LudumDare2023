@@ -43,7 +43,7 @@ Texture2D buildingTexture_End;
 int LoadLevel(void)
 {
     printf("-------- start loading level -----------");
-
+    
     roadTextureHor = LoadTexture("assets/Textures/Texture_Road_Horizontal_v2.png");
     roadTextureVer = LoadTexture("assets/Textures/Texture_Road_Vertical_v2.png");
     roadTextureInt = LoadTexture("assets/Textures/Texture_Road_Cross_v2.png");
@@ -53,7 +53,6 @@ int LoadLevel(void)
     buildingTexture_Start = LoadTexture("assets/Textures/Texture_Building_Start_v2.png");
     buildingTexture_End = LoadTexture("assets/Textures/Texture_Building_End_v2.png");
 
-
     int model = 0;
 
     for (int col = 0; col < LEVEL_SIZE; col++)
@@ -62,6 +61,7 @@ int LoadLevel(void)
         {
             if (level[row][col] == 1) // load building
             {
+
                 int totalBuildingVariations = 3;
                 int variation = GetRandomValue(1, totalBuildingVariations);
 
@@ -102,6 +102,7 @@ int LoadLevel(void)
                 loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Road_V2.obj");
                               
                 int type = GetRoadTextureIDAt(row, col);
+                
                 switch (type)
                 {
                 case 1: // See GetRoadTextureIDAt() for ID labels  

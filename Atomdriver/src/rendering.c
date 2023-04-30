@@ -48,8 +48,9 @@ void RenderInit(){
     camera.projection = CAMERA_ORTHOGRAPHIC;
 
     // Load cube and its texture
-    truckModel = LoadModel("assets/Models/Truck.obj");
-    truckTexture = LoadTexture("assets/Textures/truckTexture.png");
+    truckModel = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Truck.obj");
+    truckTexture = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/truckTexture.png");
+
     truckModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = truckTexture;
 }
 
