@@ -50,6 +50,7 @@ int main(void)
             ClearBackground(topColor);
             BeginMode3D(camera);
                 DrawModel(cube, cubePosition, scale, WHITE);
+                DrawLevel();
             EndMode3D();
         EndDrawing();
 
@@ -69,7 +70,7 @@ int main(void)
     }
 
     // Unloading
-    //UnloadLevel();
+    UnloadLevel();
     UnloadTexture(texture);
     UnloadModel(cube);
 

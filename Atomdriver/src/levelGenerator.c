@@ -6,11 +6,16 @@
 
 
 const int level[LEVEL_SIZE][LEVEL_SIZE] = {
-    {0,1,0,1,0},
-    {0,0,0,0,0},
-    {0,1,0,1,0},
-    {0,0,0,0,0},
-    {0,1,0,1,0},
+    {0,1,0,1,0,1,0,1,0,1},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,1,0,1,0,1,0,1,0,1},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,1,0,1,0,1,0,1,0,1},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,1,0,1,0,1,0,1,0,1},
+    {0,0,0,0,0,0,0,0,0,0},
+    {0,1,0,1,0,1,0,1,0,1},
+    {0,0,0,0,0,0,0,0,0,0},
 };
 
 Model loadedModels[LEVEL_SIZE * LEVEL_SIZE];
@@ -18,22 +23,47 @@ Model loadedModels[LEVEL_SIZE * LEVEL_SIZE];
 const int tileSize = 1;
 
 Texture2D texture;
+Texture2D roadTextureHor;
+Texture2D roadTextureVer;
+Texture2D roadTextureInt;
+Texture2D buildingTexture;
 
 
 int LoadLevel(void)
 {
-    printf("-------- start loading -----------");
+    printf("-------- start loading level -----------");
+
+
     texture = LoadTexture("assets/Textures/TestTexture.png"); // Load model texture
 
-    for (int model = 0; model < LEVEL_SIZE * LEVEL_SIZE; model++)
+    roadTextureHor = LoadTexture("assets/Textures/T_Tile_Road_v1.png");
+    roadTextureVer = LoadTexture("assets/Textures/T_Tile_Road_v1.png");
+    roadTextureInt = LoadTexture("assets/Textures/T_Tile_Road_v2.png");
+    buildingTexture = LoadTexture("assets/Textures/T_Tile_Building.png");
+
+    int model = 0;
+
+    for (int col = 0; col < LEVEL_SIZE; col++)
     {
-            loadedModels[model] = LoadModel("assets/Models/TestModel.obj");
-            loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+        for (int row = 0; row < LEVEL_SIZE; row++)
+        {
+            if (level[row][col] == 1)
+            {
+                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Building.obj");
+                loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture;
+            }
+            else {
+                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Road.obj");
+                loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = roadTextureVer;
+            }
+
+
+            model++;
+        }
     }
-    
 
+    printf("-------- end loading level ------------");
 
-    printf("-------- end loading ------------");
     return 0;
 }
 
@@ -42,13 +72,14 @@ int DrawLevel(void)
     // check for loaded first?
 
     int model = 0;
+    Vector3 offset = { -5.0f, 0.0f, -5.0f };
 
     for (int col = 0; col < (LEVEL_SIZE * tileSize); col += tileSize) // does * have great priority than < ?
     {
         for (int row = 0; row < (LEVEL_SIZE * tileSize); row += tileSize)
         {
-            Vector3 position = { row, 0, col }; // should these be floats? 
-            DrawModel(loadedModels[model], position, 1.0f, WHITE);
+            Vector3 position = { row, 0, col}; // should these be floats? 
+            DrawModel(loadedModels[model], Vector3Add(position, offset), 1.0f, WHITE);
             model++;
         }
     }
