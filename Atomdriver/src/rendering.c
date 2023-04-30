@@ -22,7 +22,7 @@ float angle;
 int scaleUnit = 1;
 
 // Skybox
-Color topColor = {10, 63, 68, 255};
+Color topColor = { 0, 105, 170, 1 };
 Color bottomColor = {67, 153, 114};
 
 // Objects and textures
@@ -46,8 +46,8 @@ void RenderInit(){
     camera.projection = CAMERA_ORTHOGRAPHIC;
 
     // Load cube and its texture
-    truckModel = LoadModel("../assets/Models/Truck.obj");
-    truckTexture = LoadTexture("../assets/Textures/truckTexture.png");
+    truckModel = LoadModel("assets/Models/Truck.obj");
+    truckTexture = LoadTexture("assets/Textures/truckTexture.png");
     truckModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = truckTexture;
 }
 
