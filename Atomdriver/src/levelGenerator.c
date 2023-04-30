@@ -55,7 +55,8 @@ int LoadLevel(void)
             else { // load a road
 
                 loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Road.obj");
-
+                
+                
                 int type = GetRoadTypeAt(row, col);
 
                 switch (type)
@@ -66,7 +67,7 @@ int LoadLevel(void)
                 default:
                     break;
                 }
-
+                
 
                 
             }
@@ -83,6 +84,7 @@ int LoadLevel(void)
 
 int GetRoadTypeAt(int row, int col)
 {
+
     // 1: vertical
     // 2: horiztonal
     // 3: intersection
@@ -96,14 +98,27 @@ int GetRoadTypeAt(int row, int col)
     // 10: L section west
     // 11: L section east
 
+    /*
+    int dx[] = { -1, 1, 0, 0 };
+    int dy[] = { 0, 0, -1, 1 };
+
     int adjcentTypes[4]; 
 
-    //for ()
+    for (int i = 0; i < 4; i++) {
+        int newX = row + dx[i];
+        int newY = col + dy[i];
 
+        if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols) {
+            printf("Tile (%d, %d) has value: %d\n", newX, newY, grid[newX][newY]);
+        }
+    }
+
+    */
 
 
     return 1;
 }
+
 
 int DrawLevel(void)
 {
