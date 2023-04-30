@@ -36,12 +36,12 @@ int LoadLevel(void)
 {
     printf("-------- start loading level -----------");
 
-    texture = LoadTexture("../assets/Textures/TestTexture.png"); // Load model texture
+    texture = LoadTexture("Textures/TestTexture.png"); // Load model texture
 
-    roadTextureHor = LoadTexture("../assets/Textures/T_Tile_Road_v1.png");
-    roadTextureVer = LoadTexture("../assets/Textures/T_Tile_Road_v1.png");
-    roadTextureInt = LoadTexture("../assets/Textures/T_Tile_Road_v2.png");
-    buildingTexture = LoadTexture("../assets/Textures/T_Tile_Building.png");
+    roadTextureHor = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/T_Tile_Road_v1.png");
+    roadTextureVer = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/T_Tile_Road_v1.png");
+    roadTextureInt = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/T_Tile_Road_v2.png");
+    buildingTexture = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/T_Tile_Building.png");
 
     int model = 0;
 
@@ -51,11 +51,11 @@ int LoadLevel(void)
         {
             if (level[row][col] == 1) // load building
             {
-                loadedModels[model] = LoadModel("../assets/Models/M_Ludem_Tile_Building.obj");
+                loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/M_Ludem_Tile_Building.obj");
                 loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture;
             }
             else { // load a road
-                loadedModels[model] = LoadModel("../assets/Models/M_Ludem_Tile_Road.obj");
+                loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/M_Ludem_Tile_Road.obj");
                 int type = GetRoadTypeAt(row, col);
                 switch (type)
                 {
