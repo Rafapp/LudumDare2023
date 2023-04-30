@@ -3,19 +3,20 @@
 #include "raymath.h"
 #include "rlgl.h"
 #include "stdio.h"
-#include "levelGenerator.h"
 
 // Script headers
 #include "game.h"
 #include "rendering.h"
+#include "levelGenerator.h"
 
 // Window specs
-#define SCREEN_WIDTH (800)
-#define SCREEN_HEIGHT (450)
+#define SCREEN_WIDTH (1920)
+#define SCREEN_HEIGHT (1080)
 #define WINDOW_TITLE "Atomdriver"
 
 // Camera
 Camera3D camera = { 0 };
+float angle;
 
 // Rendering variables
 int scaleUnit = 1;
@@ -38,17 +39,15 @@ void RenderInit(){
 
 
     // Camera settings
-    
-    camera.position = (Vector3){ 20.0f, 20.0f, 20.0f };
+    camera.position = (Vector3){ 50.0f, 50.0f, 50.0f };
     camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-    camera.fovy = 45.0f;
+    camera.fovy = 10.0f;
     camera.projection = CAMERA_ORTHOGRAPHIC;
-    // UpdateCamera(&camera, CAMERA_FREE);
 
     // Load cube and its texture
-    truckModel = LoadModel("assets/Models/Truck.obj");
-    truckTexture = LoadTexture("assets/Textures/truckTexture.png");
+    truckModel = LoadModel("../assets/Models/Truck.obj");
+    truckTexture = LoadTexture("../assets/Textures/truckTexture.png");
     truckModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = truckTexture;
 }
 

@@ -1,9 +1,13 @@
+// Raylib headers
 #include "raylib.h"
 #include "raymath.h"
 #include "rlgl.h"
-#include "levelGenerator.h"
-#include <stdio.h>
 
+// Script Headers
+#include "levelGenerator.h"
+
+// C headers
+#include <stdio.h>
 
 const int level[LEVEL_SIZE][LEVEL_SIZE] = {
     {0,1,0,1,0,1,0,1,0,1},
@@ -28,18 +32,16 @@ Texture2D roadTextureVer;
 Texture2D roadTextureInt;
 Texture2D buildingTexture;
 
-
 int LoadLevel(void)
 {
     printf("-------- start loading level -----------");
 
+    texture = LoadTexture("../assets/Textures/TestTexture.png"); // Load model texture
 
-    texture = LoadTexture("assets/Textures/TestTexture.png"); // Load model texture
-
-    roadTextureHor = LoadTexture("assets/Textures/T_Tile_Road_v1.png");
-    roadTextureVer = LoadTexture("assets/Textures/T_Tile_Road_v1.png");
-    roadTextureInt = LoadTexture("assets/Textures/T_Tile_Road_v2.png");
-    buildingTexture = LoadTexture("assets/Textures/T_Tile_Building.png");
+    roadTextureHor = LoadTexture("../assets/Textures/T_Tile_Road_v1.png");
+    roadTextureVer = LoadTexture("../assets/Textures/T_Tile_Road_v1.png");
+    roadTextureInt = LoadTexture("../assets/Textures/T_Tile_Road_v2.png");
+    buildingTexture = LoadTexture("../assets/Textures/T_Tile_Building.png");
 
     int model = 0;
 
@@ -49,42 +51,29 @@ int LoadLevel(void)
         {
             if (level[row][col] == 1) // load building
             {
-                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Building.obj");
+                loadedModels[model] = LoadModel("../assets/Models/M_Ludem_Tile_Building.obj");
                 loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture;
             }
             else { // load a road
-
-                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Road.obj");
-                
-                
+                loadedModels[model] = LoadModel("../assets/Models/M_Ludem_Tile_Road.obj");
                 int type = GetRoadTypeAt(row, col);
-
                 switch (type)
                 {
                 case 1:
-                    
                     loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = roadTextureVer;             
                 default:
                     break;
                 }
-                
-
-                
             }
-
-
             model++;
         }
     }
-
     printf("-------- end loading level ------------");
-
     return 0;
 }
 
 int GetRoadTypeAt(int row, int col)
 {
-
     // 1: vertical
     // 2: horiztonal
     // 3: intersection
@@ -114,19 +103,15 @@ int GetRoadTypeAt(int row, int col)
     }
 
     */
-
-
     return 1;
 }
-
 
 int DrawLevel(void)
 {
     // check for loaded first?
-
     int model = 0;
-    Vector3 offset = { -5.0f, 0.0f, -5.0f };
 
+    Vector3 offset = { -5.0f, 0.0f, -5.0f };
     for (int col = 0; col < (LEVEL_SIZE * tileSize); col += tileSize) // does * have great priority than < ?
     {
         for (int row = 0; row < (LEVEL_SIZE * tileSize); row += tileSize)
@@ -137,7 +122,6 @@ int DrawLevel(void)
             model++;
         }
     }
-
     return 0;
 }
 
