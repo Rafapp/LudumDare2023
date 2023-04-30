@@ -9,29 +9,21 @@
 #include "level.h"
 #include "game.h"
 
-Vector3 truckPosition;
+#if defined(PLATFORM_WEB)
+    #include <emscripten/emscripten.h>
+#endif
 
-int main(void)
-{
-    truckPosition = (Vector3){0,0,0};
-    RenderInit();
-    LevelInit(); // must go after render 
 
-    // Movement
-    Vector3 moveHorizontal = (Vector3){1.0f,0,0};
-    Vector3 moveVertical = (Vector3){0,0,1.0f};
-    Vector3 rotationAxis = (Vector3){0, 1, 0};
+// Movement
+Vector3 moveHorizontal = (Vector3){1.0f,0,0};
+Vector3 moveVertical = (Vector3){0,0,1.0f};
+Vector3 rotationAxis = (Vector3){0, 1, 0};
+Vector3 truckPosition = (Vector3){0,0,0};
 
-    Vector3 desiredPosition = (Vector3){ 0,0,0 };
-    Matrix desiredTransform = MatrixRotateXYZ((Vector3) { 0.0f, DEG2RAD * 0, 0.0f });
-
-    while (!WindowShouldClose())
-    {
-        ProcessLevelTimer();
-
-        RenderLoop();
-        
-        // Input
+// Separated into function for web support
+void UpdateFunction(void){
+  ProcessLevelTimer();
+    // Input
         if(IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)){
             desiredPosition = Vector3Add(truckPosition, Vector3Negate(moveVertical));
             desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 0, 0.0f });
@@ -61,8 +53,31 @@ int main(void)
             FinishedPointReached();
         }
         //printf("%i at (%f , %f)\n",c, truckPosition.x, truckPosition.z);
-    }
 
+    RenderLoop();
+}
+
+int main(void)
+{
+    RenderInit();
+    LevelInit(); // must go after render 
+
+    Vector3 desiredPosition = (Vector3){ 0,0,0 };
+    Matrix desiredTransform = MatrixRotateXYZ((Vector3) { 0.0f, DEG2RAD * 0, 0.0f });
+    
+    #if defined(PLATFORM_WEB)
+        emscripten_set_main_loop(UpdateFunction, 0, 1);
+    #else
+        SetTargetFPS(60);   
+        // Main game loop
+        while (!WindowShouldClose())
+        {
+            UpdateFunction();
+        }
+    #endif
+    
     Unload();
     return 0;
 }
+
+
