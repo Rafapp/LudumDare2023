@@ -3,24 +3,25 @@
 #include "raymath.h"
 #include "rlgl.h"
 
-
 // Script Headers
 #include "levelGenerator.h"
 
 // C headers
 #include <stdio.h>
 
-// 1 = building
 // 0 = road
+// 1 = building
+// 2 = start
+// 3 = end
 const int level[LEVEL_SIZE][LEVEL_SIZE] = {
-    {0,1,0,1,0,1,0,1,0,1},
+    {2,1,0,1,0,1,0,1,0,1},
     {0,0,0,0,0,0,0,0,0,0},
     {0,1,0,1,1,1,0,1,0,1},
     {0,0,0,0,0,0,0,0,0,0},
     {0,1,0,1,0,1,1,0,1,1},
     {0,1,0,0,0,0,0,0,0,0},
     {0,0,0,1,0,1,1,0,1,1},
-    {0,1,1,0,0,0,0,0,0,0},
+    {0,1,1,0,0,0,0,0,0,3},
     {0,1,1,0,1,1,0,1,1,1},
     {0,0,0,0,0,0,0,1,1,1},
 };
@@ -32,17 +33,26 @@ const int tileSize = 1;
 Texture2D roadTextureHor;
 Texture2D roadTextureVer;
 Texture2D roadTextureInt;
-Texture2D buildingTexture;
+Texture2D buildingTexture_1;
+Texture2D buildingTexture_2;
+Texture2D buildingTexture_3;
+Texture2D buildingTexture_Start;
+Texture2D buildingTexture_End;
 
 // Uses level[][] to as grid and loads models at each node
 int LoadLevel(void)
 {
     printf("-------- start loading level -----------");
 
-    roadTextureHor = LoadTexture("assets/Textures/T_Tile_Road_v3.png");
-    roadTextureVer = LoadTexture("assets/Textures/T_Tile_Road_v1.png");
-    roadTextureInt = LoadTexture("assets/Textures/T_Tile_Road_v2.png");
-    buildingTexture = LoadTexture("assets/Textures/T_Tile_Building_v2.png");
+    roadTextureHor = LoadTexture("assets/Textures/Texture_Road_Horizontal.png");
+    roadTextureVer = LoadTexture("assets/Textures/Texture_Road_Vertical.png");
+    roadTextureInt = LoadTexture("assets/Textures/Texture_Road_Cross.png");
+    buildingTexture_1 = LoadTexture("assets/Textures/Texture_Building_v1.png");
+    buildingTexture_2 = LoadTexture("assets/Textures/Texture_Building_v2.png");
+    buildingTexture_3 = LoadTexture("assets/Textures/Texture_Building_v3.png");
+    buildingTexture_Start = LoadTexture("assets/Textures/Texture_Building_Start.png");
+    buildingTexture_End = LoadTexture("assets/Textures/Texture_Building_End.png");
+
 
     int model = 0;
 
@@ -55,21 +65,37 @@ int LoadLevel(void)
                 int totalBuildingVariations = 3;
                 int variation = GetRandomValue(1, totalBuildingVariations);
 
-                variation = -1;
+                //variation = -1;
                 switch (variation) // choose a building variation at random
                 {
                 case 1:
+                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v1.obj");
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_1;
                     break;
                 case 2:
+                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v2.obj");
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_2;
                     break;
                 case 3:
+                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v3.obj");
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_3;
                     break;
                 default:
-                    loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Building_V2.obj"); // can this be cached? 
-                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture;
+                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v1.obj"); // can this be cached? 
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_1;
                     break;
                 }
 
+            }
+            else if (level[row][col] == 2)
+            {
+                loadedModels[model] = LoadModel("assets/Models/Model_Building_Start.obj");
+                loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_Start;
+            }
+            else if (level[row][col] == 3)
+            {
+                loadedModels[model] = LoadModel("assets/Models/Model_Building_End.obj");
+                loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_End;
             }
             else { // load a road
 
@@ -168,7 +194,13 @@ int DrawLevel(void)
 // Unloads all textures and models that were used
 int UnloadLevel(void)
 {
-    UnloadTexture(buildingTexture);
+    UnloadTexture(buildingTexture_End);
+    UnloadTexture(buildingTexture_Start);
+    UnloadTexture(buildingTexture_3);
+    UnloadTexture(buildingTexture_2);
+    UnloadTexture(buildingTexture_1);
+
+
     UnloadTexture(roadTextureInt);
     UnloadTexture(roadTextureVer);
     UnloadTexture(roadTextureHor);
