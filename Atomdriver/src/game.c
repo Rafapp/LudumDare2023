@@ -66,3 +66,14 @@ int main(void)
     Unload();
     return 0;
 }
+
+void SwitchToMainMenu(void)
+{
+
+}
+
+void SwitchToNewLevel(void)
+{
+
+}
+
