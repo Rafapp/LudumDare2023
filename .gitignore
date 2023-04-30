@@ -18,4 +18,3 @@ Atomdriver/premake5
 *.lua
 *.osx
 *.vs
-*.sln
