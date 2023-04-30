@@ -43,9 +43,11 @@ void RenderInit(){
     camera.projection = CAMERA_ORTHOGRAPHIC;
     // UpdateCamera(&camera, CAMERA_FREE);
 
+    LoadLevel();
+
     // Load cube and its texture
-    truckModel = LoadModel("../assets/Models/Truck.obj");
-    truckTexture = LoadTexture("../assets/Textures/truckTexture.png");
+    truckModel = LoadModel("assets/Models/Truck.obj");
+    truckTexture = LoadTexture("assets/Textures/truckTexture.png");
     truckModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = truckTexture;
 }
 
