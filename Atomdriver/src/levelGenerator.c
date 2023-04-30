@@ -4,42 +4,39 @@
 #include "levelGenerator.h"
 #include <stdio.h>
 
-
+// 1 = building
+// 0 = road
 const int level[LEVEL_SIZE][LEVEL_SIZE] = {
     {0,1,0,1,0,1,0,1,0,1},
     {0,0,0,0,0,0,0,0,0,0},
-    {0,1,0,1,0,1,0,1,0,1},
+    {0,1,0,1,1,1,0,1,0,1},
     {0,0,0,0,0,0,0,0,0,0},
-    {0,1,0,1,0,1,0,1,0,1},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,1,0,1,0,1,0,1,0,1},
-    {0,0,0,0,0,0,0,0,0,0},
-    {0,1,0,1,0,1,0,1,0,1},
-    {0,0,0,0,0,0,0,0,0,0},
+    {0,1,0,1,0,1,1,0,1,1},
+    {0,1,0,0,0,0,0,0,0,0},
+    {0,0,0,1,0,1,1,0,1,1},
+    {0,1,1,0,0,0,0,0,0,0},
+    {0,1,1,0,1,1,0,1,1,1},
+    {0,0,0,0,0,0,0,1,1,1},
 };
 
 Model loadedModels[LEVEL_SIZE * LEVEL_SIZE];
 
 const int tileSize = 1;
 
-Texture2D texture;
 Texture2D roadTextureHor;
 Texture2D roadTextureVer;
 Texture2D roadTextureInt;
 Texture2D buildingTexture;
 
-
+// Uses level[][] to as grid and loads models at each node
 int LoadLevel(void)
 {
     printf("-------- start loading level -----------");
 
-
-    texture = LoadTexture("assets/Textures/TestTexture.png"); // Load model texture
-
-    roadTextureHor = LoadTexture("assets/Textures/T_Tile_Road_v1.png");
+    roadTextureHor = LoadTexture("assets/Textures/T_Tile_Road_v3.png");
     roadTextureVer = LoadTexture("assets/Textures/T_Tile_Road_v1.png");
     roadTextureInt = LoadTexture("assets/Textures/T_Tile_Road_v2.png");
-    buildingTexture = LoadTexture("assets/Textures/T_Tile_Building.png");
+    buildingTexture = LoadTexture("assets/Textures/T_Tile_Building_v2.png");
 
     int model = 0;
 
@@ -49,27 +46,30 @@ int LoadLevel(void)
         {
             if (level[row][col] == 1) // load building
             {
-                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Building.obj");
+                // TODO: Add support for building variation
+                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Building_V2.obj"); // can this be cached? 
                 loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture;
             }
             else { // load a road
 
-                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Road.obj");
-                
-                
-                int type = GetRoadTypeAt(row, col);
-
+                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Road_V2.obj");
+                              
+                int type = GetRoadTextureIDAt(row, col);
                 switch (type)
                 {
-                case 1:
-                    
-                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = roadTextureVer;             
-                default:
+                case 1: // See GetRoadTextureIDAt() for ID labels  
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = roadTextureVer;        
                     break;
-                }
-                
-
-                
+                case 2:
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = roadTextureHor;
+                    break;
+                case 3:
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = roadTextureInt;
+                    break;
+                default:
+                    loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = roadTextureInt;
+                    break;
+                }                             
             }
 
 
@@ -82,7 +82,8 @@ int LoadLevel(void)
     return 0;
 }
 
-int GetRoadTypeAt(int row, int col)
+// Returns correct road texture ID by checking adjcent tiles
+int GetRoadTextureIDAt(int row, int col)
 {
 
     // 1: vertical
@@ -98,31 +99,39 @@ int GetRoadTypeAt(int row, int col)
     // 10: L section west
     // 11: L section east
 
-    /*
-    int dx[] = { -1, 1, 0, 0 };
-    int dy[] = { 0, 0, -1, 1 };
+    
+    int dx[] = { 0, 1, 0, -1 };
+    int dy[] = { -1, 0, 1, 0 };
 
-    int adjcentTypes[4]; 
+    int adjcentTiles[4]; // N, E, S, W ... clockwise (maybe I should use MACROs)
 
+    // get all adjcent tiles
     for (int i = 0; i < 4; i++) {
-        int newX = row + dx[i];
-        int newY = col + dy[i];
+        int tileX = row + dx[i];
+        int tileY = col + dy[i];
 
-        if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols) {
-            printf("Tile (%d, %d) has value: %d\n", newX, newY, grid[newX][newY]);
-        }
+        if (tileX < 0 || tileY < 0 || tileX >= LEVEL_SIZE || tileY >= LEVEL_SIZE) // out of bounds
+            adjcentTiles[i] = 1;
+        else
+            adjcentTiles[i] = level[tileX][tileY];
     }
 
-    */
+    // not perfect but will do the job for now
+    // Check for all the possible cases.....
+    if (adjcentTiles[1] == 1 && adjcentTiles[3] == 1)
+        return 1; // vertical
+    if (adjcentTiles[0] == 1 && adjcentTiles[2] == 1)
+        return 2; // horizontal
+    if (adjcentTiles[0] == 0 && adjcentTiles[1] == 0 && adjcentTiles[2] == 0 && adjcentTiles[3] == 0)
+        return 3; // intersection
 
-
-    return 1;
+    return 0;
 }
 
-
+// Loops through all models and draws them
 int DrawLevel(void)
 {
-    // check for loaded first?
+    // check for loaded first? Would be nice if this had error handling
 
     int model = 0;
     Vector3 offset = { -5.0f, 0.0f, -5.0f };
@@ -141,9 +150,13 @@ int DrawLevel(void)
     return 0;
 }
 
+// Unloads all textures and models that were used
 int UnloadLevel(void)
 {
-    UnloadTexture(texture);
+    UnloadTexture(buildingTexture);
+    UnloadTexture(roadTextureInt);
+    UnloadTexture(roadTextureVer);
+    UnloadTexture(roadTextureHor);
 
     for (int model = 0; model < LEVEL_SIZE * LEVEL_SIZE; model++)
     {
@@ -156,3 +169,10 @@ int UnloadLevel(void)
 
     return 0;
 }
+
+/* // how do I do this?
+int[] GetCurrentLevelData(void)
+{
+    return level;
+}
+*/
