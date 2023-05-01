@@ -40,10 +40,11 @@ Texture2D buildingTexture_Start;
 Texture2D buildingTexture_End;
 
 // Uses level[][] to as grid and loads models at each node
-int LoadLevel(void)
+int LoadLevelAssets(void)
 {
     printf("-------- start loading level -----------");
     
+#if defined(PLATFORM_WEB)
     roadTextureHor = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Road_Horizontal_v2.png");
     roadTextureVer = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Road_Vertical_v2.png");
     roadTextureInt = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Road_Cross_v2.png");
@@ -52,6 +53,16 @@ int LoadLevel(void)
     buildingTexture_3 = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Building_3_v2.png");
     buildingTexture_Start = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Building_Start_v2.png");
     buildingTexture_End = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/Texture_Building_End_v2.png");
+#else
+    roadTextureHor = LoadTexture("assets/Textures/Texture_Road_Horizontal_v2.png");
+    roadTextureVer = LoadTexture("assets/Textures/Texture_Road_Vertical_v2.png");
+    roadTextureInt = LoadTexture("assets/Textures/Texture_Road_Cross_v2.png");
+    buildingTexture_1 = LoadTexture("assets/Textures/Texture_Building_1_v2.png");
+    buildingTexture_2 = LoadTexture("assets/Textures/Texture_Building_2_v2.png");
+    buildingTexture_3 = LoadTexture("assets/Textures/Texture_Building_3_v2.png");
+    buildingTexture_Start = LoadTexture("assets/Textures/Texture_Building_Start_v2.png");
+    buildingTexture_End = LoadTexture("assets/Textures/Texture_Building_End_v2.png");
+#endif
 
     int model = 0;
 
@@ -69,19 +80,35 @@ int LoadLevel(void)
                 switch (variation) // choose a building variation at random
                 {
                 case 1:
+                    #if defined(PLATFORM_WEB)
                     loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_v1.obj");
+                    #else
+                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v1.obj");
+                    #endif
                     loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_1;
                     break;
                 case 2:
+#if defined(PLATFORM_WEB)
                     loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_v2.obj");
+#else
+                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v2.obj");
+#endif
                     loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_2;
                     break;
                 case 3:
+#if defined(PLATFORM_WEB)
                     loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_v3.obj");
+#else
+                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v3.obj");
+#endif
                     loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_3;
                     break;
                 default:
+#if defined(PLATFORM_WEB)
                     loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_v1.obj"); // can this be cached? 
+#else
+                    loadedModels[model] = LoadModel("assets/Models/Model_Building_v1.obj");
+#endif
                     loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_1;
                     break;
                 }
@@ -89,17 +116,30 @@ int LoadLevel(void)
             }
             else if (level[row][col] == 2)
             {
+#if defined(PLATFORM_WEB)
                 loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_Start.obj");
+#else
+                loadedModels[model] = LoadModel("assets/Models/Model_Building_Start.obj");
+#endif
                 loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_Start;
             }
             else if (level[row][col] == 3)
             {
+#if defined(PLATFORM_WEB)
                 loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Model_Building_End.obj");
+#else
+                loadedModels[model] = LoadModel("assets/Models/Model_Building_End.obj");
+#endif
+                
                 loadedModels[model].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = buildingTexture_End;
             }
             else { // load a road
 
+#if defined(PLATFORM_WEB)
                 loadedModels[model] = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/M_Ludem_Tile_Road_V2.obj");
+#else
+                loadedModels[model] = LoadModel("assets/Models/M_Ludem_Tile_Road_V2.obj");
+#endif
                               
                 int type = GetRoadTextureIDAt(row, col);
                 
@@ -172,7 +212,7 @@ static int GetRoadTextureIDAt(int row, int col)
 }
 
 // Loops through all models and draws them
-int DrawLevel(void)
+int DrawLevelAssets(void)
 {
     // check for loaded first? Would be nice if this had error handling
 
@@ -193,7 +233,7 @@ int DrawLevel(void)
 }
 
 // Unloads all textures and models that were used
-int UnloadLevel(void)
+int UnloadLevelAssets(void)
 {
     UnloadTexture(buildingTexture_End);
     UnloadTexture(buildingTexture_Start);

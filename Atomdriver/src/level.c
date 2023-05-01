@@ -15,13 +15,28 @@ float totalTimeSpent;
 
 int levelFinished = 0;
 
-// Needs to be called when a new level is created
-void LevelInit(void)
+// Unloads current level and loads a new random level 
+void LevelLoad(void)
 {
+	if(currentLevel != NULL)
+		UnloadLevelAssets();
+
+	// insert random generation here ---- 
+
+	// ------
+
+	LoadLevelAssets();
 	currentLevel = GetCurrentLevelData();
 	levelFinished = 0;
 	startTime = GetTime();
 	totalTimeSpent = 0;
+}
+
+// Unloads current level
+void LevelUnload(void)
+{
+	UnloadLevelAssets();
+	currentLevel = NULL;
 }
 
 // Returns the tile ID at the given position
@@ -40,7 +55,7 @@ int CheckForCollisions(Vector3* position)
 		return currentLevel[x][y];
 }
 
-// returns unformated time
+// Updates timer and returns timer value
 float ProcessLevelTimer()
 {
 	if (levelFinished)
@@ -49,6 +64,7 @@ float ProcessLevelTimer()
 		return totalTimeSpent += GetFrameTime();
 }
 
+// Returns unformated time
 float GetCurrentLevelTime(void)
 {
 	return totalTimeSpent;

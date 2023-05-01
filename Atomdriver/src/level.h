@@ -5,7 +5,8 @@
 
 #define LEVEL_SIZE 10
 
-void LevelInit(void);
+void LevelLoad(void);
+void LevelUnload(void);
 int CheckForCollisions(Vector3* actorPosition);
 float ProcessLevelTimer(void);
 void FinishedPointReached(void);
