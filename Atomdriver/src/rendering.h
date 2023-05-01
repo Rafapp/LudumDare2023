@@ -4,6 +4,12 @@
 #include "rlgl.h"
 #include "stdio.h"
 
+
+// Window specs
+#define SCREEN_WIDTH (1280)
+#define SCREEN_HEIGHT (720)
+#define WINDOW_TITLE "Atomdriver"
+
 extern int scaleUnit;
 extern Model truckModel;
 

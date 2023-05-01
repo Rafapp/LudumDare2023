@@ -6,3 +6,4 @@
 
 Vector3 truckPosition;
 
+int isGamePaused(void);

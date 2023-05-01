@@ -10,10 +10,7 @@
 #include "rendering.h"
 #include "levelGenerator.h"
 
-// Window specs
-#define SCREEN_WIDTH (1280)
-#define SCREEN_HEIGHT (720)
-#define WINDOW_TITLE "Atomdriver"
+
 
 // Camera
 Camera3D camera = { 0 };
@@ -68,6 +65,16 @@ void RenderLoop(){
             DrawLevelAssets(); // this function needs to check if assets were loaded.
         EndMode3D();
         RenderTimer();
+
+        if (isGamePaused() == 1) { // not working ....??!?!?
+
+            const char* text = "Delievery Finished";
+            int fontSize = 40;
+            float offset = MeasureText(text, fontSize) / 2;
+            DrawText(text, (SCREEN_WIDTH / 2) - offset, 10, fontSize, WHITE);
+        }
+        
+
     EndDrawing();
 }
 
