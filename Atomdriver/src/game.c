@@ -13,15 +13,19 @@
     #include <emscripten/emscripten.h>
 #endif
 
+    // Movement
 Vector3 moveHorizontal;
 Vector3 moveVertical;
 Vector3 rotationAxis;
 Vector3 desiredPosition;
 Matrix desiredTransform;
 
+// local functions
+void LoadNewLevel(void);
+
 // Separated into function for web support
 void UpdateFunction(void){
-    // Movement
+
 
 
   ProcessLevelTimer();
@@ -62,7 +66,8 @@ void UpdateFunction(void){
 int main(void)
 {
     RenderInit();
-    LevelInit(); // must go after render 
+    
+    LevelLoad(); // load the first level
     
     moveHorizontal = (Vector3){ 1.0f, 0, 0 };
     moveVertical = (Vector3){ 0, 0, 1.0f };
@@ -81,18 +86,19 @@ int main(void)
             UpdateFunction();
         }
     #endif
-    
+
+    LevelUnload();
     Unload();
     return 0;
 }
 
 void SwitchToMainMenu(void)
 {
-
+    // too much work...
 }
 
-void SwitchToNewLevel(void)
+void LoadNewLevel(void)
 {
-
+    LevelLoad(); // add error handling here (if necessary)
 }
 

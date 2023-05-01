@@ -3,9 +3,9 @@
 
 #define LEVEL_SIZE 10
 
-int LoadLevel(void);
-int DrawLevel(void);
-int UnloadLevel(void);
+int LoadLevelAssets(void);
+int DrawLevelAssets(void);
+int UnloadLevelAssets(void);
 static int GetRoadTextureIDAt(int row, int col);
 const int(*GetCurrentLevelData())[LEVEL_SIZE];
 

@@ -40,7 +40,7 @@ Texture2D buildingTexture_Start;
 Texture2D buildingTexture_End;
 
 // Uses level[][] to as grid and loads models at each node
-int LoadLevel(void)
+int LoadLevelAssets(void)
 {
     printf("-------- start loading level -----------");
     
@@ -212,7 +212,7 @@ static int GetRoadTextureIDAt(int row, int col)
 }
 
 // Loops through all models and draws them
-int DrawLevel(void)
+int DrawLevelAssets(void)
 {
     // check for loaded first? Would be nice if this had error handling
 
@@ -233,7 +233,7 @@ int DrawLevel(void)
 }
 
 // Unloads all textures and models that were used
-int UnloadLevel(void)
+int UnloadLevelAssets(void)
 {
     UnloadTexture(buildingTexture_End);
     UnloadTexture(buildingTexture_Start);

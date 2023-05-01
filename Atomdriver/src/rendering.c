@@ -9,7 +9,6 @@
 #include "game.h"
 #include "rendering.h"
 #include "levelGenerator.h"
-#include "level.h"
 
 // Window specs
 #define SCREEN_WIDTH (1280)
@@ -36,9 +35,6 @@ void RenderInit(){
     // Create a window
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
-
-    LoadLevel(); // should be done by level.c
-
 
     // Camera settings
     camera.position = (Vector3){ 50.0f, 50.0f, 50.0f };
@@ -69,7 +65,7 @@ void RenderLoop(){
         ClearBackground(topColor);
         BeginMode3D(camera);
             DrawModel(truckModel, truckPosition, scaleUnit, WHITE);
-            DrawLevel();           
+            DrawLevelAssets(); // this function needs to check if assets were loaded.
         EndMode3D();
         RenderTimer();
     EndDrawing();
@@ -91,8 +87,6 @@ void RenderTimer(void)
 void Unload(){
     UnloadTexture(truckTexture);
     UnloadModel(truckModel);
-
-    UnloadLevel();  // should be done by level.c
 
     CloseWindow();
 }
