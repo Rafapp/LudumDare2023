@@ -11,6 +11,7 @@
 #include "levelGenerator.h"
 
 
+float GetCurrentLevelTime(void);
 
 // Camera
 Camera3D camera = { 0 };
@@ -37,21 +38,12 @@ void RenderInit(){
     camera.position = (Vector3){ 50.0f, 50.0f, 50.0f };
     camera.target = (Vector3){ 5.0f, 0.0f, 5.0f };
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-    camera.fovy = 10.0f;
+    camera.fovy = 11.0f;
     camera.projection = CAMERA_ORTHOGRAPHIC;
 
     // Load cube and its texture
-#if defined(PLATFORM_WEB)
     truckModel = LoadModel("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Models/Truck.obj");
-#else
-    truckModel = LoadModel("assets/Models/Truck.obj");
-#endif
-#if defined(PLATFORM_WEB)
     truckTexture = LoadTexture("/Volumes/RAFASSD/PersonalProjects/LudumDare2023/Atomdriver/assets/Textures/TruckTexture.png");
-#else
-    truckTexture = LoadTexture("assets/Textures/TruckTexture.png");
-#endif
-
     truckModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = truckTexture;
 }
 

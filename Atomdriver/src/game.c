@@ -7,51 +7,68 @@
 // Script headers
 #include "rendering.h"
 #include "level.h"
-#include "game.h"
+#include "levelGenerator.h"
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
 
-    // Movement
+// Movement
 Vector3 moveHorizontal;
 Vector3 moveVertical;
 Vector3 rotationAxis;
 Vector3 desiredPosition;
+Vector3 truckPosition;
 Matrix desiredTransform;
 
+
+float t = 0;
+float wobble = 0;
+float wobbleSpeed = 10.0f;
+float wobbleDistance = 0.0125f;
+
+// Game states 
 int gamePaused = 0;
+int levelNumber = 0;
 float levelTransitionTime = 2;
 float currentTransitionTime = 0;
 
 // local functions
-void LoadNewLevel(void);
+void LoadNewLevel();
 void ProcessLevelTransitionTimer(void);
+
+void Wobble(){
+    t += GetFrameTime();
+    wobble = sin(t * wobbleSpeed) * wobbleDistance;
+    Vector3 wobbledVector = (Vector3){truckPosition.x,truckPosition.y + wobble,truckPosition.z};
+    desiredPosition = wobbledVector;
+}
 
 // Separated into function for web support
 void UpdateFunction(void)
 {
-
- 
-    ProcessLevelTimer();
-
-        // Input
+    // Input
     if(IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)){
         desiredPosition = Vector3Add(truckPosition, Vector3Negate(moveVertical));
         desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 0, 0.0f });
+        printf("W");
     }
-    if(IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)){
+    else if(IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)){
         desiredPosition = Vector3Add(truckPosition, Vector3Negate(moveHorizontal));
         desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 90, 0.0f });
+        printf("A");
     }
-    if(IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)){
+    else if(IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)){
         desiredPosition = Vector3Add(truckPosition, moveVertical);
         desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 180, 0.0f });
+        printf("S");
     }
-    if(IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)){
+    else if(IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)){
         desiredPosition = Vector3Add(truckPosition, moveHorizontal);
         desiredTransform = MatrixRotateXYZ((Vector3){ 0.0f, DEG2RAD * 270, 0.0f });
-    }
+        printf("D");
+    } 
+    ProcessLevelTimer();
 
     int targetTile = CheckForCollisions(&desiredPosition);
 
@@ -64,20 +81,22 @@ void UpdateFunction(void)
     {
         FinishedPointReached();
         gamePaused = 1;
-
     } 
+
+    Wobble();
+    RenderLoop();
+    
 }
 
 int main(void)
 {
     RenderInit();
-    
-    LevelLoad(); // load the first level
+    LoadNewLevel(); // load the first level
     
     moveHorizontal = (Vector3){ 1.0f, 0, 0 };
     moveVertical = (Vector3){ 0, 0, 1.0f };
     rotationAxis = (Vector3){ 0, 1, 0 };
-    truckPosition = (Vector3){ 0, 0, 0 };
+    truckPosition = (Vector3){ 1, 0, 1 };
     desiredPosition = (Vector3){ 0, 0, 0 };
     desiredTransform = MatrixRotateXYZ((Vector3) { 0.0f, 0, 0.0f });
 
@@ -88,13 +107,10 @@ int main(void)
         // Main game loop
         while (!WindowShouldClose())
         {
-
             if (gamePaused) ProcessLevelTransitionTimer();
-            
             if (!gamePaused) UpdateFunction();
-            RenderLoop();
 
-            
+            RenderLoop();
         }
     #endif
 
@@ -110,14 +126,13 @@ void SwitchToMainMenu(void)
 
 void ProcessLevelTransitionTimer(void)
 {
-
-
     currentTransitionTime += GetFrameTime();
 
     if (currentTransitionTime >= levelTransitionTime)
     {
         LoadNewLevel();
         gamePaused = 0;
+        currentTransitionTime = 0;
     }
 }
 
@@ -126,14 +141,14 @@ int isGamePaused(void)
     return gamePaused;
 }
 
-void LoadNewLevel(void)
+void LoadNewLevel()
 {
-    LevelLoad(); // add error handling here (if necessary)
-
+    levelNumber++;
+    LevelLoad(levelNumber); // add error handling here (if necessary)
     moveHorizontal = (Vector3){ 1.0f, 0, 0 };
     moveVertical = (Vector3){ 0, 0, 1.0f };
     rotationAxis = (Vector3){ 0, 1, 0 };
-    truckPosition = (Vector3){ 0, 0, 0 };
+    truckPosition = (Vector3){ 1, 0, 1 };
     desiredPosition = (Vector3){ 0, 0, 0 };
     desiredTransform = MatrixRotateXYZ((Vector3) { 0.0f, 0, 0.0f });    
 }

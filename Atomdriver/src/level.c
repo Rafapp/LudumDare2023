@@ -16,7 +16,7 @@ float totalTimeSpent;
 int levelFinished = 0;
 
 // Unloads current level and loads a new random level 
-void LevelLoad(void)
+void LevelLoad(int levelNumber)
 {
 	if(currentLevel != NULL)
 		UnloadLevelAssets();
@@ -25,7 +25,7 @@ void LevelLoad(void)
 
 	// ------
 
-	LoadLevelAssets();
+	LoadLevelAssets(levelNumber);
 	currentLevel = GetCurrentLevelData();
 	levelFinished = 0;
 	startTime = GetTime();

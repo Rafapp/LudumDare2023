@@ -4,6 +4,6 @@
 #include "rlgl.h"
 #include "stdio.h"
 
-Vector3 truckPosition;
+extern Vector3 truckPosition;
 
 int isGamePaused(void);

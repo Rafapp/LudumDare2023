@@ -3,9 +3,9 @@
 
 #include "raylib.h"
 
-#define LEVEL_SIZE 10
+#define LEVEL_SIZE 11
 
-void LevelLoad(void);
+void LevelLoad(int levelNumber);
 void LevelUnload(void);
 int CheckForCollisions(Vector3* actorPosition);
 float ProcessLevelTimer(void);
